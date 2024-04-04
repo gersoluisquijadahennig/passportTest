@@ -26,6 +26,21 @@
                         </div>
 
                         <div class="row mb-3">
+                            <label for="run" class="col-md-4 col-form-label text-md-end">{{ __('Run') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="run" type="run" class="form-control @error('run') is-invalid @enderror" name="run" value="{{ old('run') }}" required autocomplete="run">
+
+                                @error('run')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+
+                        <div class="row mb-3">
                             <label for="email" class="col-md-4 col-form-label text-md-end">{{ __('Email Address') }}</label>
 
                             <div class="col-md-6">
