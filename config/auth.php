@@ -42,7 +42,7 @@ return [
         ],
         'api' => [
             'driver' => 'passport',
-            'provider' => 'users',
+            'provider' => 'usersPanel',
             'hash' => false,
         ],
     ],
@@ -66,14 +66,13 @@ return [
 
     'providers' => [
         'users' => [
-            'driver' => 'eloquent',
+            'driver' => 'CustomEloquent',
             'model' => env('AUTH_MODEL', App\Models\User::class),
         ],
-
-        // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
-        // ],
+        'usersPanel' => [
+            'driver' => 'CustomEloquent',
+            'model' => env('AUTH_MODEL', App\Models\PanelUser::class),
+        ],
     ],
 
     /*

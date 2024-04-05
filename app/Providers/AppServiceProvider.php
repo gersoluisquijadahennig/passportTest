@@ -22,9 +22,14 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         //Passport::useClientModel(Client::class);
-        Passport::enablePasswordGrant(); 
+        Passport::enablePasswordGrant();
         Passport::tokensExpireIn(now()->addDays(15));
         Passport::refreshTokensExpireIn(now()->addDays(30));
-        Passport::personalAccessTokensExpireIn(now()->addMonths(6));  
+        Passport::personalAccessTokensExpireIn(now()->addMonths(6));     
+
+        $this->app['auth']->provider('CustomEloquent', function ($app, array $config) {
+            $model=$app['config']['auth.providers.users.model'];
+            return new CustomEloquentUserProvider($app['hash'], $model);
+        });
     }
 }

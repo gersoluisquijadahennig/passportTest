@@ -43,10 +43,13 @@ en el modelo user
     }
 
 
-en el appserviceprovider
+En el caso que de que necesitemos que el tipo de cliente sea passport en el appserviceprovider
 
     public function boot(): void
     {
         //Passport::useClientModel(Client::class);
         Passport::enablePasswordGrant();   
     }
+
+
+Si se instalo la libreria de Oci para laravel

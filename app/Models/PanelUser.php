@@ -2,22 +2,16 @@
 
 namespace App\Models;
 
-use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Passport\HasApiTokens;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Authenticatable
+class PanelUser extends Authenticatable
 {
-    use HasApiTokens;
-
-    protected $connection = 'oracle';
-
-    /**
-     * eliminamos que create_at and modified_at
-     */
+    use  HasApiTokens;
    
+    protected $connection = 'oracle';
+    
     protected $table = 'BIBLIOTECA_VIRTUAL.USUARIO_PANEL';
-
-    public $timestamps = false;
 
     protected $fillable = [
         'id',
@@ -40,18 +34,16 @@ class User extends Authenticatable
         'habilita_depuracion',
         'fecha_clave',
     ];
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
 
-    public function findForPassport(string $username): User
-    {
-        return $this->where('run', $username)->first();
-    }
+    protected $hidden = [
+        'clave',
+    ];
     public function getAuthPasswordName()
     {
         return 'clave';
     }
+    
+
+
+
 }

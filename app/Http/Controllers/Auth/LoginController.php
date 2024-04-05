@@ -43,5 +43,12 @@ class LoginController extends Controller
         return 'run';
     }
 
+    /**
+     * agregamos passwordname
+     */
+    public function passwordname(){
+        return 'clave';
+    }
+
 
 }
