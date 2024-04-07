@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Validation\ValidationException;
+
 
 class LoginController extends Controller
 {
@@ -42,6 +44,17 @@ class LoginController extends Controller
     public function username()
     {
         return 'run';
+    }
+
+    protected function credentials(Request $request)
+    {
+        return $request->only($this->username(), 'password');
+    }
+    protected function sendFailedLoginResponse(Request $request)
+    {
+        throw ValidationException::withMessages([
+            $this->username() => "la combinación de usuario y contraseña no es correcta.",
+        ]);
     }
 
 

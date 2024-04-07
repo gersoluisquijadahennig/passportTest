@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use App\Http\Requests\UserRequest;
 use App\Http\Controllers\Controller;
+use App\Models\UserAuth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Validator;
@@ -62,11 +63,14 @@ class RegisterController extends Controller
      */
     protected function create(UserRequest $request)
     {
-          return User::create([
+          return UserAuth::create([
             'run' => $request['run'],
             'name' => $request['name'],
             'email' => $request['email'],
             'password' => Hash::make($request['password']),
+            'proyecto' => '8',
+            'uid' => '32123132132132132132132132132132',
+            //'fecha_clave' => now(),
         ]);
     }
 

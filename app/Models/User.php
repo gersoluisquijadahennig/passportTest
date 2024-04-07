@@ -9,20 +9,16 @@ class User extends Authenticatable
 {
     use HasApiTokens;
 
-    protected $connection = 'oracle';
-
-    /**
-     * eliminamos que create_at and modified_at
-     */
+    //protected $connection = 'oracle';
    
     protected $table = 'BIBLIOTECA_VIRTUAL.USUARIO_PANEL';
 
-    public $timestamps = false;
+    public $timestamps = true;
 
     protected $fillable = [
         'id',
         'usuario',
-        'clave',
+        //'clave',
         'personas_id',
         'perfil_id',
         'correo_electronico',
@@ -40,16 +36,19 @@ class User extends Authenticatable
         'habilita_depuracion',
         'fecha_clave',
     ];
+
     /**
      * The attributes that should be hidden for serialization.
      *
      * @var array<int, string>
      */
+    protected $hidden = [
+        'clave',
+    ];
 
-    public function findForPassport(string $username): User
-    {
-        return $this->where('run', $username)->first();
-    }
+    /**
+     * este metodo es para que laravel busque por el campo clave para los que seautentican desde afuera, metodo implementado en laravel 11
+     */
     public function getAuthPasswordName()
     {
         return 'clave';
