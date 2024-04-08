@@ -9,7 +9,7 @@ class User extends Authenticatable
 {
     use HasApiTokens;
 
-    //protected $connection = 'oracle';
+    protected $connection = 'oracle';
    
     protected $table = 'BIBLIOTECA_VIRTUAL.USUARIO_PANEL';
 
@@ -17,8 +17,8 @@ class User extends Authenticatable
 
     protected $fillable = [
         'id',
+        'clave', 
         'usuario',
-        //'clave',
         'personas_id',
         'perfil_id',
         'correo_electronico',
@@ -53,4 +53,5 @@ class User extends Authenticatable
     {
         return 'clave';
     }
+
 }
