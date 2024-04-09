@@ -8,8 +8,12 @@ use Laravel\Passport\HasApiTokens;
 class User extends Authenticatable
 {
     use HasApiTokens;
-
-    protected $connection = 'oracle';
+    
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+        $this->connection = env('DB_DEFAULT_CONNECTION');
+    }
    
     protected $table = 'BIBLIOTECA_VIRTUAL.USUARIO_PANEL';
 
