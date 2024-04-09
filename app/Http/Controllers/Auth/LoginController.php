@@ -45,7 +45,6 @@ class LoginController extends Controller
     {
         return 'run';
     }
-
     protected function credentials(Request $request)
     {
         return $request->only($this->username(), 'password');

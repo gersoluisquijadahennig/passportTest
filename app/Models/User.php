@@ -17,7 +17,7 @@ class User extends Authenticatable
    
     protected $table = 'BIBLIOTECA_VIRTUAL.USUARIO_PANEL';
 
-    public $timestamps = true;
+    public $timestamps = false;
 
     protected $fillable = [
         'id',
@@ -55,7 +55,7 @@ class User extends Authenticatable
      */
     public function getAuthPasswordName()
     {
-        return 'clave';
+        return 'clave'; 
     }
 
 }
