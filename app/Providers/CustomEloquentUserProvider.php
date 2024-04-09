@@ -17,9 +17,9 @@ class CustomEloquentUserProvider extends EloquentUserProvider
         }
 
         
-        return $this->hasher->check($plain, $user->getAuthPassword());// contra la base de datos de postgres
+        //return $this->hasher->check($plain, $user->getAuthPassword());// contra la base de datos de postgres
         //dd(hash('md5', $plain).' == '.$user->getAuthPassword());
-        //return hash('md5', $plain) === $user->getAuthPassword();// contra la base de datos de oracle panel
+        return hash('md5', $plain) === $user->getAuthPassword();// contra la base de datos de oracle panel
     }
     /**
      * para efectos de 
