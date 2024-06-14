@@ -1,0 +1,4 @@
+tenemos un cliente id 11 con pass =  3mrtGpJBsvBwLzycPDPzPMPZzywx7DYdYgyAwGt8 y rediret http://panel-v4.test/callback
+
+revisamos que apache este corriendo, se creo un vhost para panel-v4.test co el port 80
+
