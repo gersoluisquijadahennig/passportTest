@@ -16,7 +16,7 @@ class User extends Authenticatable
         $this->connection = env('DB_DEFAULT_CONNECTION');
     }
    
-    protected $table = 'BIBLIOTECA_VIRTUAL.USUARIO_PANEL';
+    protected $table = 'biblioteca_virtual.usuario_panel';
 
     public $timestamps = false;
 
