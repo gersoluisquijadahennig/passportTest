@@ -7,6 +7,8 @@ class UserAuth extends Authenticatable
 {
     use HasApiTokens;
 
+    protected $connection = 'oracle';
+
 
     protected $table = 'users';
     protected $primaryKey = 'id';

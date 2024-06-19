@@ -10,11 +10,7 @@ class User extends Authenticatable
 {
     use HasApiTokens;
     
-    public function __construct(array $attributes = [])
-    {
-        parent::__construct($attributes);
-        $this->connection = env('DB_DEFAULT_CONNECTION');
-    }
+    protected $connection = 'oracle'; // nombre de la conexion que se configuro en el archivo database.php
    
     protected $table = 'BIBLIOTECA_VIRTUAL.USUARIO_PANEL';
 
@@ -58,5 +54,9 @@ class User extends Authenticatable
     {
         return 'clave'; 
     }
+    public function session()
+    {
+        return $this->hasMany(Session::class);
+    }   
 
 }
