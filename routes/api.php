@@ -2,36 +2,28 @@
 
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\DB;
-use Laravel\Passport\TokenRepository;
-use Laravel\Passport\RefreshTokenRepository;
-
-
 
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:api');
 
+// crear una ruta para validar que exista una session activa en el sistema segun el token
+Route::get('/auth', function (Request $request) {
+    return response()->json(['auth' => Auth::check()]);
+})->middleware('auth:api');
+
+// crear una ruta para obtener las sessiones activas en el sistema segun el token
+Route::get('/sessions', function (Request $request) {
+    return response()->json(['sessions' => $request->user()->sessions]);
+})->middleware('auth:api');
+
 // crear una ruta para cerrar una session activa en el sistema segun el token
-
-Route::delete('/session', function (Request $request, TokenRepository $tokenRepo, RefreshTokenRepository $refreshTokenRepo) {
-    $user = $request->user();
-    $request->session()->forget('access_token');
-
-    return response()->json(['message' => $user->token()->id], 200);
-    if ($user->token()) {
-        $tokenId = $user->token()->id;
-
-        // Revoca el token de acceso
-        $tokenRepo->revokeAccessToken($tokenId);
-
-        // Revoca todos los tokens de actualización asociados
-        $refreshTokenRepo->revokeRefreshTokensByAccessTokenId($tokenId);
-
-        return response()->json(['message' => 'Session cerrada'], 200);
+Route::delete('/session/{session}', function (Request $request, $session) {
+    $session = Auth::user()->sessions()->where('id', $session)->first();
+    if ($session) {
+        $session->delete();
     }
-
-    return response()->json(['message' => 'No autenticado'], 401);
+    return response()->json(['message' => 'Session cerrada']);
 })->middleware('auth:api');

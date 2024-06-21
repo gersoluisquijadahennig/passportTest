@@ -12,7 +12,7 @@ class User extends Authenticatable
     
     protected $connection = 'oracle'; // nombre de la conexion que se configuro en el archivo database.php
    
-    protected $table = 'BIBLIOTECA_VIRTUAL.USUARIO_PANEL';
+    protected $table = 'biblioteca_virtual.usuario_panel';
 
     public $timestamps = false;
 
