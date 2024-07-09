@@ -16,22 +16,12 @@ class CustomEloquentUserProvider extends EloquentUserProvider
             return false;
         }
 
-        
-        //return $this->hasher->check($plain, $user->getAuthPassword());// contra la base de datos de postgres
-        //dd(hash('md5', $plain).' == '.$user->getAuthPassword());
-        return hash('md5', $plain) === $user->getAuthPassword();// contra la base de datos de oracle panel
-    }
-    /**
-     * para efectos de 
-     */
-
-    /*public function validateCredentials(UserContract $user, array $credentials)
-    {
-        if (is_null($plain = $credentials['password'])) {
-            return false;
+        if(config('database.default') == 'pgsql'){
+            return $this->hasher->check($plain, $user->getAuthPassword());
+        }else{
+            return hash('md5', $plain) === $user->getAuthPassword();
         }
-
-        return $this->hasher->check($plain, $user->getAuthPassword());
-    }*/
+        
+    }
 
 }

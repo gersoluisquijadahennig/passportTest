@@ -10,7 +10,7 @@ class User extends Authenticatable
 {
     use HasApiTokens;
     
-    protected $connection = 'oracle'; // nombre de la conexion que se configuro en el archivo database.php
+    protected $connection = 'pgsql'; // nombre de la conexion que se configuro en el archivo database.php
    
     protected $table = 'biblioteca_virtual.usuario_panel';
 
