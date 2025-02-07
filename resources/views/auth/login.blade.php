@@ -6,7 +6,6 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">{{ __('Login') }}</div>
-
                 <div class="card-body">
                     <form method="POST" action="{{ route('login') }}" novalidate>
                         @csrf
@@ -59,7 +58,7 @@
 
                                 @if (Route::has('password.request'))
                                     <a class="btn btn-link" href="{{ route('password.request') }}">
-                                        {{ __('Forgot Your Password?') }}
+                                        Olvide mi contraseña
                                     </a>
                                 @endif
                             </div>

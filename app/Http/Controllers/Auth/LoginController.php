@@ -58,17 +58,16 @@ class LoginController extends Controller
             $this->username() => "la combinación de usuario y contraseña no es correcta.",
         ]);
     }
-
     public function revoke(Request $request){
 
         //dd($request->user());
         try {
             $user = $request->user();
-    
+
             $tokenId = $user->token()->id;
             $tokenRepository = app(TokenRepository::class);
             $refreshTokenRepository = app(RefreshTokenRepository::class);
-    
+
             // Revocar el token de acceso
             $tokenRepository->revokeAccessToken($tokenId);
             // Revocar todos los tokens de actualización asociados

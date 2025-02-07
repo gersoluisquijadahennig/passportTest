@@ -2,14 +2,13 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Auth\EloquentUserProvider;
 use Illuminate\Contracts\Auth\Authenticatable as UserContract;
 
 class CustomEloquentUserProvider extends EloquentUserProvider
 {
 
-    public function validateCredentials(UserContract $user, array $credentials)
+    /*public function validateCredentials(UserContract $user, array $credentials)
     {
         //dd($credentials);
         if (is_null($plain = $credentials['password'])) {
@@ -17,11 +16,12 @@ class CustomEloquentUserProvider extends EloquentUserProvider
         }
 
         if(config('database.default') == 'pgsql'){
-            return $this->hasher->check($plain, $user->getAuthPassword());
+            return hash('md5', $plain) === $user->getAuthPassword();
+            //return $this->hasher->check($plain, $user->getAuthPassword());
         }else{
             return hash('md5', $plain) === $user->getAuthPassword();
         }
-        
-    }
+
+    }*/
 
 }

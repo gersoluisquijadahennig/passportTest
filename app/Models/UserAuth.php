@@ -7,7 +7,7 @@ class UserAuth extends Authenticatable
 {
     use HasApiTokens;
 
-    protected $connection = 'pgsql';
+    protected $connection = 'oracle';
 
 
     protected $table = 'users';
@@ -32,7 +32,7 @@ class UserAuth extends Authenticatable
         return $this->run . ' - ' . $this->name;
     }
 
-    
+
 
 
 }

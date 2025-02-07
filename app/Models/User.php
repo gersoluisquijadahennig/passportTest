@@ -5,20 +5,24 @@ namespace App\Models;
 use Laravel\Passport\HasApiTokens;
 use Illuminate\Contracts\Session\Session;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+
 
 class User extends Authenticatable
 {
-    use HasApiTokens;
-    
-    protected $connection = 'pgsql'; // nombre de la conexion que se configuro en el archivo database.php
-   
+    use HasApiTokens, Notifiable;
+
+    protected $connection = 'oracle'; // nombre de la conexion que se configuro en el archivo database.php
+
     protected $table = 'biblioteca_virtual.usuario_panel';
 
     public $timestamps = false;
 
+    protected $primaryKey = 'id';
+
     protected $fillable = [
         'id',
-        'clave', 
+        'clave',
         'usuario',
         'personas_id',
         'perfil_id',
@@ -52,11 +56,17 @@ class User extends Authenticatable
      */
     public function getAuthPasswordName()
     {
-        return 'clave'; 
+        return 'clave';
     }
+
+    public function getEmailForPasswordReset()
+    {
+        return $this->correo_electronico;
+    }
+
     public function session()
     {
         return $this->hasMany(Session::class);
-    }   
+    }
 
 }
