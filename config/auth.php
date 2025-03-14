@@ -40,10 +40,23 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+        'admin' => [
+            'driver' => 'session',
+            'provider' => 'usersAuth',
+        ],
         'api' => [
             'driver' => 'passport',
             'provider' => 'users',
         ],
+        'api:cliente2' => [
+            'driver' => 'passport',
+            'provider' => 'cliente2',
+        ],
+        'api:cliente3' => [
+            'driver' => 'passport',
+            'provider' => 'cliente3',
+        ],
+
     ],
 
     /*
@@ -70,8 +83,17 @@ return [
         ],
         'usersAuth' => [
             'driver' => 'eloquent',
-            'model' => env('AUTH_MODEL', App\Models\User::class),
+            'model' => App\Models\UserAdmin::class,
         ],
+        'cliente2' => [
+            'driver' => 'CustomEloquent',
+            'model' => App\Models\UserCliente2::class,
+        ],
+        'cliente3' => [
+            'driver' => 'CustomEloquent',
+            'model' => App\Models\UserCliente3::class,
+        ],
+
     ],
 
     /*

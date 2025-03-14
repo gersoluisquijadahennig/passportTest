@@ -12,7 +12,7 @@ return [
     | these language lines according to your application's requirements.
     |
     */
-
+    'Password' => 'Contraseña',
     'failed' => 'These credentials do not match our records.',
     'password' => 'The provided password is incorrect.',
     'throttle' => 'Has intentado iniciar sesión demasiadas veces. Por favor intenta de nuevo en :seconds segundos.',

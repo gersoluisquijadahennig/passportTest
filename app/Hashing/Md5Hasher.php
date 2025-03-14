@@ -20,6 +20,7 @@ class Md5Hasher implements HasherContract
     {
         return false;
     }
+    
     function info($hashedValue)
     {
         return password_get_info($hashedValue);

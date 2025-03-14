@@ -1,4 +1,4 @@
-## Documentacion 
+## Documentacion
 [¿Qué concesión de OAuth 2.0 debo implementar?](    https://documenter.getpostman.com/view/10808729/SzS8rjbc?version=latest)
 
 ## Cliente de concesion de contraseña
@@ -48,8 +48,25 @@ En el caso que de que necesitemos que el tipo de cliente sea passport en el apps
     public function boot(): void
     {
         //Passport::useClientModel(Client::class);
-        Passport::enablePasswordGrant();   
+        Passport::enablePasswordGrant();
     }
 
 
 Si se instalo la libreria de Oci para laravel
+Se instala el paquete jeremy379/laravel-openid-connect
+
+
+Laravel Passport ahora es un Idp (Identity provider) proveedor de identidad, implementamos OpenID Connect en Laravel Passport, ahora no necesitamos realizar llamadas adicionales a la apu de passport para obtener datos del usuario, ahora podemos obtener los datos directamente en el id_token.
+
+CLAVE PUBLICA EXPUESTA - VERIFICAR EL PROCESO
+ahora tenemos un nuevo recurso /oauth/jwks que nos devuelve las claves publicas para validar el token JWT, validar el token en los clientes es muy sencillo, solo necesitamos la clave publica y el token JWT, con esto podemos validar el token JWT en el cliente.
+
+
+recordar que tenemos que solicitar el token en la ruta con el scope ['openid']	Obligatorio en OIDC. Indica que se solicita autenticación y generación de un id_token, adicionalmente se enviará en el scope cualquier valor que este en el claims scope del id_token.
+
+al igual que keycloak, podemos tener un cliente de administración de cuentas que nos permita gestionar los usuarios. revisar
+
+la duracion de la session del cliente deberia de durar lo mismo que la duracion del token, hay que investigar que pasa cuando queremos que la session sea dinamica.
+
+tenemos que separar las rutas del oauth, con diferentes guards, en web rutas para usuarios administrador y rutas account para usuarios.
+en este proyecto si especificar bien la separacion de los esquemas 

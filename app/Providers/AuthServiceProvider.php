@@ -2,8 +2,12 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\ServiceProvider;
 use App\Hashing\Md5Hasher;
+use Illuminate\Support\ServiceProvider;
+use Illuminate\Auth\Passwords\PasswordBrokerManager;
+use App\Http\Controllers\Auth\CustomAccesTokenController;
+use Laravel\Passport\Http\Controllers\AccessTokenController;
+
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -12,9 +16,11 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->singleton('md5hash', function ($app) {
+        /*$this->app->singleton('md5hash', function ($app) {
             return new Md5Hasher();
-        });
+        });*/
+        $this->app->bind(AccessTokenController::class, CustomAccesTokenController::class);
+
     }
 
     /**
@@ -23,8 +29,10 @@ class AuthServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->app['auth']->provider('CustomEloquent', function ($app) {
-            $model=$app['config']['auth.providers.users.model'];
-            return new CustomEloquentUserProvider($app['md5hash'], $model);
+            $model = $app['config']['auth.providers.users.model'];
+            // Create MD5 hasher instance only for CustomEloquent provider
+            $md5Hasher = new Md5Hasher();
+            return new CustomEloquentUserProvider($md5Hasher, $model);
         });
     }
 }

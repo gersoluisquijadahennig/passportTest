@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Rules\Rut;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -9,6 +10,10 @@ use Laravel\Passport\TokenRepository;
 use Laravel\Passport\RefreshTokenRepository;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Str;
+use Illuminate\Http\JsonResponse;
+
 
 
 class LoginController extends Controller
@@ -26,24 +31,17 @@ class LoginController extends Controller
 
     use AuthenticatesUsers;
 
-    /**
-     * Where to redirect users after login.
-     *
-     * @var string
-     */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/account/dashboard';
 
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
+    protected $maxAttempts = 2;
+
+    protected $decayMinutes = 1;
+
     public function __construct()
     {
         $this->middleware('guest')
         ->except('logout');
     }
-
     public function username()
     {
         return 'run';
@@ -58,31 +56,101 @@ class LoginController extends Controller
             $this->username() => "la combinación de usuario y contraseña no es correcta.",
         ]);
     }
-    public function revoke(Request $request){
+    public function login(Request $request)
+    {
+        $this->validateLogin($request);
 
-        //dd($request->user());
-        try {
-            $user = $request->user();
+        $key = $this->throttleKey($request);
 
-            $tokenId = $user->token()->id;
-            $tokenRepository = app(TokenRepository::class);
-            $refreshTokenRepository = app(RefreshTokenRepository::class);
-
-            // Revocar el token de acceso
-            $tokenRepository->revokeAccessToken($tokenId);
-            // Revocar todos los tokens de actualización asociados
-            $refreshTokenRepository->revokeRefreshTokensByAccessTokenId($tokenId);
-
-            return response()->json([
-                'message' => 'Token y sesión web revocados correctamente.'
-            ], 200);
-        } catch (\Exception $e) {
-            // Manejo de excepciones generales
-            return response()->json([
-                'error' => 'Ocurrió un error al revocar el token y cerrar la sesión. ' . $e->getMessage()
-            ], 500);
+        if ($this->hasTooManyLoginAttempts($request)) {
+            \Log::info('Has too many login attempts', ['key' => $key, 'attempts' => $this->limiter()->attempts($key)]);
+            $this->fireLockoutEvent($request);
+            return $this->sendLockoutResponse($request);
         }
+
+        if ($this->attemptLogin($request)) {
+            if ($request->hasSession()) {
+                $request->session()->put('auth.password_confirmed_at', time());
+                $request->session()->flash('status', 'Sesión iniciada correctamente');
+            }
+
+            return $this->sendLoginResponse($request);
+        }
+
+        $this->incrementLoginAttempts($request);
+        \Log::info('Failed login attempt', ['key' => $key, 'attempts' => $this->limiter()->attempts($key)]);
+
+        return $this->sendFailedLoginResponse($request);
+    }
+    protected function authenticated(Request $request, $user)
+    {
+        $request->session()->regenerateToken(); // Regenera el token CSRF sin cerrar la sesión del otro guard
+    }
+    // determinar los scopes del usuario para mostrar las opciones del menú de aplicaciones
+    protected function scopesForUser($user)
+    {
+        $scopes = [];
+        if ($user->hasRole('admin')) {
+            //
+        }
+            $scopes = array_merge($scopes, $user->hasApp());
+            $scopes = array_values(array_unique($scopes));
+
+        return $scopes;
+    }
+    protected function validateLogin(Request $request)
+    {
+        $request->validate([
+            $this->username() => ['required', 'string', new Rut],
+            'password' => 'required|string',
+        ],
+        [
+            'run.required' => 'El campo rut es obligatorio',
+            'password.required' => 'El campo contraseña es obligatorio',
+        ]);
+    }
+    protected function incrementLoginAttempts(Request $request)
+    {
+        $attempts = $this->limiter()->attempts($this->throttleKey($request));
+        $this->limiter()->hit(
+            $this->throttleKey($request), $this->dynamicDecayMinutes($attempts) * 60
+        );
+    }
+    protected function dynamicDecayMinutes($attempts)
+    {
+        \Log::info('Dynamic decay minutes', ['attempts' => $attempts]);
+        if ($attempts >= 10) {
+            return 10; // 10 minutes for 10 or more attempts
+        } elseif ($attempts >= 5) {
+            return 1; // 1 minute for 5 or more attempts
+        }
+        return $this->decayMinutes(); // default decay minutes
     }
 
+    public function logout(Request $request)
+    {
+        $this->guard()->logout();
 
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
+
+        if ($response = $this->loggedOut($request)) {
+            return $response;
+        }
+
+        return $request->wantsJson()
+            ? new JsonResponse([], 204)
+            : redirect('/account/login');
+    }
+
+    public function showLoginForm()
+    {
+        return view('auth.account.login');
+    }
+
+    protected function guard()
+    {
+        return Auth::guard('web');
+    }
 }

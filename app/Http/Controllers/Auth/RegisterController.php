@@ -63,7 +63,7 @@ class RegisterController extends Controller
      */
     protected function create(UserRequest $request)
     {
-          return UserAuth::create([
+        return UserAuth::create([
             'run' => $request['run'],
             'name' => $request['name'],
             'email' => $request['email'],

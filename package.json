@@ -7,10 +7,22 @@
     },
     "devDependencies": {
         "@popperjs/core": "^2.11.6",
+        "@quasar/vite-plugin": "^1.9.0",
         "axios": "^1.6.4",
         "bootstrap": "^5.2.3",
         "laravel-vite-plugin": "^1.0",
         "sass": "^1.56.1",
+        "sass-embedded": "^1.85.1",
         "vite": "^5.0"
+    },
+    "dependencies": {
+        "@fortawesome/fontawesome-free": "^6.7.2",
+        "@inertiajs/vue3": "^2.0.5",
+        "@quasar/extras": "^1.16.17",
+        "@vitejs/plugin-vue": "^5.2.1",
+        "font-awesome": "^4.7.0",
+        "pinia": "^3.0.1",
+        "quasar": "^2.18.1",
+        "ziggy": "^2.4.0"
     }
 }

@@ -2,8 +2,9 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Realm;
+use App\Models\UserAdmin;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -15,9 +16,22 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+        $admin = UserAdmin::factory()->create([
+            'name' => 'admin',
+            'email' => 'admin@ssbiobio.cl',
+            'password' => bcrypt('123123123'),
+            'rut' => '263354516',
+            'first_name' => 'admin',
+            'alias' => 'Admin',
         ]);
+
+        $realm = Realm::create([
+            'name' => 'master',
+            'description' => 'master realm form ssbiobio',
+            'active' => true,
+            'slug' => 'master',
+        ]);
+
+        $admin->realms()->attach($realm->id);
     }
 }

@@ -1,0 +1,193 @@
+.bg-dark-blue {
+    background-color: var(--dark-blue-color);
+}
+
+.text-white {
+    color: white;
+}
+
+.bg-blue {
+    --bs-bg-opacity: 1;
+    color: white !important;
+    background-color: var(--dark-blue-color) !important;
+}
+
+.navbar {
+    --bs-navbar-brand-color: var(--bs-navbar-brand-color);
+    --bs-navbar-brand-hover-color: rgb(211, 207, 207);
+    --bs-navbar-active-color: var(--bs-navbar-active-color);
+}
+
+.navbar-nav{
+    --bs-nav-link-hover-color: var(--bs-nav-link-hover-color);
+    color: white;
+}
+
+.nav-link {
+    display: block;
+    padding: var(--bs-nav-link-padding-y) var(--bs-nav-link-padding-x);
+    font-size: var(--bs-nav-link-font-size);
+    font-weight: var(--bs-nav-link-font-weight);
+    color: rgb(255, 255, 255);
+    text-decoration: none;
+    background: none;
+    border: 0;
+    transition: color 0.15sease-in-out, background-color 0.15sease-in-out, border-color 0.15sease-in-out;
+}
+
+.navbar-nav .nav-link.active, .navbar-nav .nav-link.show {
+    color: var(--bs-navbar-active-color);
+}
+
+
+
+html, body {
+    height: 100%;
+}
+
+.flex {
+    display: flex;
+}
+
+.flex-col {
+    flex-direction: column;
+}
+
+.min-h-screen {
+    min-height: 100vh;
+}
+
+.flex-grow {
+    flex-grow: 1;
+}
+
+.h-48 {
+    height: 12rem; /* 192px, close to 200px */
+}
+
+/*
+franja
+*/
+
+.franja {
+    width: 168px;
+    height: 8px;
+    margin-left: 0.6rem;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.franja-card {
+    width: 100px;
+    margin-left: 0.6rem;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.franja .franjaazul {
+    background-color: var(--primary-color);
+    height: 8px;
+    width: 37%;
+    display: block;
+    float: left;
+}
+
+.franja .franjaroja {
+    background-color: var(--secondary-color);
+    height: 8px;
+    width: 63%;
+    display: block;
+    float: left;
+}
+
+.franja-card .franjaazul {
+    background-color: var(--primary-color);
+    height: 5px;
+    width: 37%;
+    display: block;
+    float: left;
+}
+
+.franja-card .franjaroja {
+    background-color: var(--secondary-color);
+    height: 5px;
+    width: 63%;
+    display: block;
+    float: left;
+}
+.card-header.title{
+    font-family: 'Roboto Slab';
+    color: var(--text-color);
+    font-weight: bold;
+    font-size: 1.95rem;
+    margin-bottom: 0;
+}
+
+.card-header.title{
+    --text-color: var(--text-color);
+}
+
+#login-button{
+    font-size: large;
+}
+
+.svg-color {
+    fill: #ffffff; /* Cambia este color al que desees */
+}
+
+footer {
+    position: relative;
+    background-color: #212529; /* Color de fondo */
+    overflow: hidden; /* Asegura que el pseudo-elemento no se salga del contenedor */
+}
+
+footer::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('/img/Icono-GOB22.png'), url('/img/Icono-GOB26.png');
+    background-repeat: repeat, repeat;
+    background-position: 0 0, 100px 100px; /* Ajusta la posición para dispersar más las imágenes */
+    background-size: 150px, 150px; /* Tamaño más grande para dispersar más las imágenes */
+    opacity: 0.1; /* Ajusta la transparencia aquí */
+    z-index: 0; /* Asegura que el pseudo-elemento esté detrás del contenido */
+}
+
+footer > .container {
+    position: relative;
+    z-index: 1; /* Asegura que el contenido esté por encima del pseudo-elemento */
+}
+.footer-izquierda img{
+    width: auto;
+    height: 100%;
+}
+
+.footer-derecha img{
+    width: auto;
+    height: 100%;
+    max-height: 45px;
+}
+
+[data-bs-theme=dark] .btn-primary {
+    --bs-btn-color: #212529 !important;
+    --bs-btn-bg: #FF851B !important;
+    --bs-btn-border-color: #FF851B !important;
+    --bs-btn-hover-color: #fff !important;
+    --bs-btn-hover-bg: #ffc107 !important;
+    --bs-btn-hover-border-color: #ffc107 !important;
+}
+
+:root {
+    --dark-blue-color: #092039; /* Puedes cambiar el valor al color que desees */
+    --bs-navbar-brand-color: white;
+    --primary-color: #0F69B3;
+    --secondary-color: #eb3c46;
+    --bs-nav-link-hover-color: white;
+    --bs-navbar-active-color: white;
+
+}
